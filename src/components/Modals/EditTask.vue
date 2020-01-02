@@ -1,7 +1,7 @@
 <template>
     <div>
         <q-card>
-            <modal-header>Add Task</modal-header>
+            <modal-header>Edit task</modal-header>
 
             <q-form @submit.prevent="submitForm">
                 <q-card-section>
@@ -17,38 +17,29 @@
 
 <script>
 import {mapActions} from 'vuex'
+import mixinAddEditTask from 'src/mixins/mixin-add-edit-task'
 export default {
+    props:['task','id'],
+    mixins:[mixinAddEditTask],
     data(){
         return{
             taskToSubmit: {
-                name: '',
-                dueDate: '',
-                dueTime: '',
-                completed: false,
+                
             }
         }
     },
 
     methods:{
-        ...mapActions('tasks', ['addTask']),
-        submitForm(){
-            this.$refs.modalTaskName.$refs.name.validate()
-            if(!this.$refs.modalTaskName.$refs.name.hasError){
-                this.submitTask();
-            }
-        }, 
+        ...mapActions('tasks', ['updateTask']),
 
         submitTask(){
-            this.addTask(this.taskToSubmit)
+            this.updateTask({id:this.id, updates:this.taskToSubmit})
             this.$emit('close')
         }
     },
-    components:{
-        'modal-header': require('components/Modals/Shared/ModalHeader.vue').default, 
-        'modal-task-name': require('components/Modals/Shared/ModalTaskName.vue').default, 
-        'modal-due-date': require('components/Modals/Shared/ModalDueDate.vue').default, 
-        'modal-due-time': require('components/Modals/Shared/ModalDueTime.vue').default, 
-        'modal-buttons': require('components/Modals/Shared/ModalButtons.vue').default, 
+
+    mounted(){
+        this.taskToSubmit = Object.assign({}, this.task)
     }
 }
 </script>

@@ -7,7 +7,9 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
-      'axios'
+      'axios',
+      'firebase',
+      'router-auth'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -43,11 +45,16 @@ module.exports = function (ctx) {
       all: 'auto',
 
       components: [],
-      directives: [],
+      directives: [
+        'TouchHold'
+      ],
 
       // Quasar plugins
       plugins: [
-        'Dialog'
+        'Dialog',
+        'LocalStorage',
+        'SessionStorage',
+        'Notify'
       ]
     },
 
@@ -79,7 +86,9 @@ module.exports = function (ctx) {
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    animations: [
+      'zoomIn', 'zoomOut'
+    ],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
@@ -155,6 +164,7 @@ module.exports = function (ctx) {
 
         // Windows only
         // win32metadata: { ... }
+        platform:'darwin'
       },
 
       builder: {
